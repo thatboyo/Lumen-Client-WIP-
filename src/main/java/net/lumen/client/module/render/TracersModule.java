@@ -1,74 +1,15 @@
 package net.lumen.client.module.render;
 
-import net.lumen.client.event.EventRender3D;
 import net.lumen.client.module.Category;
 import net.lumen.client.module.Module;
-import net.lumen.client.setting.BooleanSetting;
-import net.lumen.client.setting.ColorSetting;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.util.math.Vec3d;
-import com.mojang.blaze3d.systems.RenderSystem;
 
-public class TracersModule extends Module {
-    private final BooleanSetting players;
-    private final BooleanSetting mobs;
-    private final ColorSetting color;
-
+/**
+ * Temporarily disabled while the original implementation is ported to the
+ * Minecraft 1.21.11 rendering pipeline. Original source is preserved under
+ * src/main/resources/disabled-module-sources/.
+ */
+public final class TracersModule extends Module {
     public TracersModule() {
-        super("Tracers", "Draws lines from the screen center to tracked entities.", Category.RENDER, 0);
-        players = new BooleanSetting("Players", "Draw tracers for players.", true);
-        mobs = new BooleanSetting("Mobs", "Draw tracers for mobs.", false);
-        color = new ColorSetting("Color", "Tracer line color.", 0xFF00AAFF);
-        registerSetting(players);
-        registerSetting(mobs);
-        registerSetting(color);
-    }
-
-    @Override
-    protected void onEnable() {
-        subscribe(EventRender3D.class, this::onRender3D);
-    }
-
-    private void onRender3D(EventRender3D event) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null || client.world == null) return;
-
-        Vec3d cameraPos = client.gameRenderer.getCamera().getPos();
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.disableDepthTest();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-        BufferBuilder bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
-
-        for (Entity entity : client.world.getEntities()) {
-            if (entity == client.player) continue;
-
-            boolean shouldDraw = false;
-            if (players.getValue() && entity instanceof PlayerEntity) shouldDraw = true;
-            if (mobs.getValue() && entity instanceof MobEntity) shouldDraw = true;
-
-            if (shouldDraw) {
-                Vec3d entityPos = entity.getPos();
-                int col = color.getValue();
-                float r = ((col >> 16) & 0xFF) / 255.0f;
-                float g = ((col >> 8) & 0xFF) / 255.0f;
-                float b = (col & 0xFF) / 255.0f;
-                float a = ((col >> 24) & 0xFF) / 255.0f;
-
-                // Line from camera to entity
-                bufferBuilder.vertex(0.0f, 0.0f, 0.0f, col, 0.0f, 0.0f, 0, 0, 0.0f, 0.0f, 0.0f);
-                bufferBuilder.vertex((float)(entityPos.x - cameraPos.x), (float)(entityPos.y - cameraPos.y), (float)(entityPos.z - cameraPos.z), col, 0.0f, 0.0f, 0, 0, 0.0f, 0.0f, 0.0f);
-            }
-        }
-
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
+        super("Tracers", "Temporarily disabled pending a Minecraft 1.21.11 rendering port.", Category.RENDER, 0);
     }
 }
