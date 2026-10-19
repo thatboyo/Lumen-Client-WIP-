@@ -7,8 +7,8 @@ import net.lumen.client.setting.BooleanSetting;
 import net.lumen.client.setting.SliderSetting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
-import net.minecraft.item.SwordItem;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.registry.tag.ItemTags;
 
 public class AutoClickerModule extends Module {
     private final SliderSetting minCps;
@@ -40,7 +40,7 @@ public class AutoClickerModule extends Module {
 
         if (onlyWeapon.getValue()) {
             ItemStack item = client.player.getMainHandStack();
-            if (!(item.getItem() instanceof SwordItem) && !(item.getItem() instanceof ToolItem)) {
+            if (!item.isIn(ItemTags.SWORDS) && !item.contains(DataComponentTypes.TOOL)) {
                 return;
             }
         }

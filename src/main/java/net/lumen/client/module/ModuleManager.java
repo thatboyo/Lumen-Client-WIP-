@@ -101,29 +101,30 @@ public class ModuleManager {
         if (category == Category.FAVORITE) {
             return getFavorites();
         }
-        return modules.stream().filter(module -> module.getCategory() == category).collect(Collectors.toList());
+        return modules.stream().filter(ModuleVisibility::isVisible).filter(module -> module.getCategory() == category).collect(Collectors.toList());
     }
 
     public Module getModule(String name) {
-        return modules.stream().filter(module -> module.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
+        return modules.stream().filter(ModuleVisibility::isVisible).filter(module -> module.getName().equalsIgnoreCase(name)).findFirst().orElse(null);
     }
 
     public List<Module> getFavorites() {
-        return modules.stream().filter(Module::isFavorited).collect(Collectors.toList());
+        return modules.stream().filter(ModuleVisibility::isVisible).filter(Module::isFavorited).collect(Collectors.toList());
     }
 
     public List<Module> getGhostMirrors() {
-        return modules.stream().filter(Module::isGhost).collect(Collectors.toList());
+        return modules.stream().filter(ModuleVisibility::isVisible).filter(Module::isGhost).collect(Collectors.toList());
     }
 
     public List<Module> getEnabled() {
         return modules.stream()
+                .filter(ModuleVisibility::isVisible)
                 .filter(Module::isEnabled)
                 .sorted(Comparator.comparingInt(module -> -module.getName().length()))
                 .toList();
     }
 
     public List<Module> getAllModules() {
-        return new ArrayList<>(modules);
+        return modules.stream().filter(ModuleVisibility::isVisible).collect(Collectors.toCollection(ArrayList::new));
     }
 }

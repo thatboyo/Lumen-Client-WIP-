@@ -98,7 +98,7 @@ public class SilentAuraModule extends Module {
                 continue;
             }
 
-            Vec3d playerToEntity = entity.getPos().subtract(client.player.getPos()).normalize();
+            Vec3d playerToEntity = entity.getEntityPos().subtract(client.player.getEntityPos()).normalize();
             Vec3d playerLook = Vec3d.fromPolar(0, client.player.getYaw()).normalize();
             double angleToTarget = Math.toDegrees(Math.acos(playerToEntity.dotProduct(playerLook)));
 

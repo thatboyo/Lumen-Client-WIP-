@@ -38,7 +38,7 @@ public class CriticalsModule extends Module {
                 break;
             case JUMP:
                 // Jump-based critical
-                if (client.player.isOnGround() && client.player.input.jumping) {
+                if (client.player.isOnGround() && client.options.jumpKey.isPressed()) {
                     client.player.jump();
                 }
                 break;

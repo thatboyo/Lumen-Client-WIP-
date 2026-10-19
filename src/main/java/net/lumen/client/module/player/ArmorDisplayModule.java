@@ -5,6 +5,7 @@ import net.lumen.client.theme.LumenTheme;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.entity.EquipmentSlot;
 
 public class ArmorDisplayModule extends HudElement {
     private final Boolean showDurability;
@@ -22,10 +23,10 @@ public class ArmorDisplayModule extends HudElement {
         int armorX = (int) x;
 
         // Render armor slots horizontally
-        ItemStack helmet = MinecraftClient.getInstance().player.getInventory().armor.get(3);
-        ItemStack chestplate = MinecraftClient.getInstance().player.getInventory().armor.get(2);
-        ItemStack leggings = MinecraftClient.getInstance().player.getInventory().armor.get(1);
-        ItemStack boots = MinecraftClient.getInstance().player.getInventory().armor.get(0);
+        ItemStack helmet = MinecraftClient.getInstance().player.getEquippedStack(EquipmentSlot.HEAD);
+        ItemStack chestplate = MinecraftClient.getInstance().player.getEquippedStack(EquipmentSlot.CHEST);
+        ItemStack leggings = MinecraftClient.getInstance().player.getEquippedStack(EquipmentSlot.LEGS);
+        ItemStack boots = MinecraftClient.getInstance().player.getEquippedStack(EquipmentSlot.FEET);
 
         ItemStack[] armorItems = {helmet, chestplate, leggings, boots};
 

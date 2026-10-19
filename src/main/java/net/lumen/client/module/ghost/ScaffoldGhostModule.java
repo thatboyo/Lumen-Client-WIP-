@@ -29,9 +29,9 @@ public class ScaffoldGhostModule extends Module {
         boolean shouldSneak = false;
 
         // Check if moving forward
-        if (client.player.input.movementForward > 0) {
+        if (client.options.forwardKey.isPressed()) {
             // Get direction player is facing
-            Direction facing = Direction.fromRotation(client.player.getYaw());
+            Direction facing = client.player.getHorizontalFacing();
             BlockPos currentPos = client.player.getBlockPos();
             BlockPos nextPos = currentPos.offset(facing);
 

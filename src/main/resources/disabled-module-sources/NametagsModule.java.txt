@@ -1,0 +1,130 @@
+ARCHIVED ORIGINAL SOURCE — intentionally stored as a text resource so it is not compiled.
+Reason: Minecraft 1.21.11 changed the rendering API used by this implementation. The module is hidden/disabled until it can be ported to the current rendering pipeline.
+Original source follows:
+
+package net.lumen.client.module.render;
+
+import net.lumen.client.event.EventRender3D;
+import net.lumen.client.module.Category;
+import net.lumen.client.module.Module;
+import net.lumen.client.setting.BooleanSetting;
+import net.lumen.client.setting.SliderSetting;
+import net.lumen.client.theme.LumenTheme;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3d;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+public class NametagsModule extends Module {
+    private final BooleanSetting showHealth;
+    private final BooleanSetting showDistance;
+    private final SliderSetting scale;
+
+    public NametagsModule() {
+        super("Nametags", "Renders enhanced floating nametags above entities.", Category.RENDER, 0);
+        showHealth = new BooleanSetting("Show Health", "Display entity health.", true);
+        showDistance = new BooleanSetting("Show Distance", "Display entity distance.", true);
+        scale = new SliderSetting("Scale", "Nametag size scaling.", 1.0, 0.5, 3.0, 0.1);
+        registerSetting(showHealth);
+        registerSetting(showDistance);
+        registerSetting(scale);
+    }
+
+    @Override
+    protected void onEnable() {
+        subscribe(EventRender3D.class, this::onRender3D);
+    }
+
+    private void onRender3D(EventRender3D event) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null || client.world == null || client.player == null || client.textRenderer == null) {
+            return;
+        }
+
+        Vec3d cameraPos = client.gameRenderer.getCamera().getPos();
+
+        for (Entity entity : client.world.getEntities()) {
+            if (entity == client.player || !(entity instanceof LivingEntity)) {
+                continue;
+            }
+
+            LivingEntity living = (LivingEntity) entity;
+            StringBuilder display = new StringBuilder();
+
+            // Add entity name or player name
+            if (entity instanceof PlayerEntity) {
+                display.append(entity.getName().getString());
+            } else {
+                display.append(entity.getType().getName().getString());
+            }
+
+            // Add health if enabled
+            if (showHealth.getValue()) {
+                display.append(" ").append(String.format("%.1f", living.getHealth())).append("❤");
+            }
+
+            // Add distance if enabled
+            if (showDistance.getValue()) {
+                double distance = client.player.distanceTo(entity);
+                display.append(" ").append(String.format("%.1fm", distance));
+            }
+
+            // Render the nametag
+            renderNametag(event.matrices, client.textRenderer, display.toString(), entity, cameraPos, scale.getValue());
+        }
+    }
+
+    private void renderNametag(MatrixStack matrices, TextRenderer textRenderer, String text, Entity entity, Vec3d cameraPos, double scale) {
+        matrices.push();
+        Vec3d entityPos = entity.getPos().add(0, entity.getHeight() + 0.5, 0);
+        matrices.translate(entityPos.x - cameraPos.x, entityPos.y - cameraPos.y, entityPos.z - cameraPos.z);
+
+        // Rotate to face camera
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-MinecraftClient.getInstance().gameRenderer.getCamera().getYaw()));
+        matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(MinecraftClient.getInstance().gameRenderer.getCamera().getPitch()));
+
+        matrices.scale((float) -scale, (float) -scale, (float) scale);
+
+        int textWidth = textRenderer.getWidth(text);
+        float x = -textWidth / 2.0f;
+        float y = 0;
+
+        Identifier watermark = LumenTheme.active.nametagWatermarkAsset();
+        int iconSize = 10;
+        if (entity instanceof PlayerEntity && watermark != null) {
+            RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
+            RenderSystem.setShaderTexture(0, watermark);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
+            float iconX = x - iconSize - 2;
+            float iconY = y - iconSize / 2;
+            buffer.vertex(iconX, iconY + iconSize, 0, 0xFFFFFFFF, 0.0f, 1.0f, 0, 0, 0.0f, 0.0f, 0.0f);
+            buffer.vertex(iconX + iconSize, iconY + iconSize, 0, 0xFFFFFFFF, 1.0f, 1.0f, 0, 0, 0.0f, 0.0f, 0.0f);
+            buffer.vertex(iconX + iconSize, iconY, 0, 0xFFFFFFFF, 1.0f, 0.0f, 0, 0, 0.0f, 0.0f, 0.0f);
+            buffer.vertex(iconX, iconY, 0, 0xFFFFFFFF, 0.0f, 0.0f, 0, 0, 0.0f, 0.0f, 0.0f);
+            BufferRenderer.drawWithGlobalProgram(buffer.end());
+            RenderSystem.disableBlend();
+            x -= (iconSize + 4);
+        }
+
+        matrices.translate(x, y, 0);
+        textRenderer.draw(text, 0, 0, 0xFFFFFFFF, false, matrices.peek().getPositionMatrix(), (VertexConsumerProvider.Immediate) MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers(), TextRenderer.TextLayerType.NORMAL, 0, 15728880);
+
+        matrices.pop();
+    }
+}

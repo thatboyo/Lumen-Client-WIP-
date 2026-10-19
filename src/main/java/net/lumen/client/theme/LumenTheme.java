@@ -9,19 +9,19 @@ import net.minecraft.util.Identifier;
  */
 public enum LumenTheme {
     LUMIN(
-        0xFF000001, 0xFF050609, 0x35FFFFFF,
-        0xFFDDF5FF, 0xFF7F8792, 0xFFFFFFFF,
-        0x99DDF5FF, 0xB50B0F15, 0xD70D1219
+        0xFF030303, 0xFF0A0A0A, 0x35FFFFFF,
+        0xFFF5F7FA, 0xFF858B93, 0xFFFFFFFF,
+        0x66FFFFFF, 0xB50B0B0D, 0xD7141417
     ),
     RAIN(
-        0xFF050A0D, 0xFF0B141A, 0x2A8EEBFF,
-        0xFF7ADCF2, 0xFF728C96, 0xFFE5FAFF,
-        0x777ADCF2, 0xC5162831, 0xE0182E38
+        0xFF02070B, 0xFF050E15, 0x3558A6B8,
+        0xFF4CB8D0, 0xFF526B7A, 0xFFBDEEFF,
+        0x6652BBD1, 0xB50A1B28, 0xD70B2433
     ),
     SYNTH(
-        0xFF08050F, 0xFF151020, 0x33EBD4FF,
-        0xFFFF6BD6, 0xFF90839D, 0xFFFFE8FB,
-        0x88FF6BD6, 0xC51F1729, 0xE0281A35
+        0xFF04030A, 0xFF0B0715, 0x334C3B83,
+        0xFFFF4FA3, 0xFF766A91, 0xFFFFD6F1,
+        0x88FF3E9E, 0xC5100C22, 0xE01A1033
     ),
 
     // Backwards-compatible names for existing saved profiles.
@@ -43,15 +43,15 @@ public enum LumenTheme {
     public final int enabledIndicator;
     /** Accent halo color; alpha is retained for translucent drawing. */
     public final int glow;
-    /** Translucent enabled surface color. */
-    public final int unused1;
-    /** Translucent selected surface color. */
-    public final int unused2;
+    /** Translucent enabled module row surface. */
+    public final int enabledSurface;
+    /** Translucent panel/header surface. */
+    public final int selectedSurface;
 
     public static LumenTheme active = LUMIN;
 
     LumenTheme(int background, int panel, int border, int accent, int muted,
-               int enabledIndicator, int glow, int unused1, int unused2) {
+               int enabledIndicator, int glow, int enabledSurface, int selectedSurface) {
         this.background = background;
         this.panel = panel;
         this.border = border;
@@ -59,8 +59,8 @@ public enum LumenTheme {
         this.muted = muted;
         this.enabledIndicator = enabledIndicator;
         this.glow = glow;
-        this.unused1 = unused1;
-        this.unused2 = unused2;
+        this.enabledSurface = enabledSurface;
+        this.selectedSurface = selectedSurface;
     }
 
     public Identifier watermarkAsset() {

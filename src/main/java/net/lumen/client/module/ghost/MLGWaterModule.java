@@ -7,6 +7,7 @@ import net.lumen.client.setting.BooleanSetting;
 import net.lumen.client.setting.SliderSetting;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.Items;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.hit.BlockHitResult;
@@ -47,8 +48,8 @@ public class MLGWaterModule extends Module {
 
             if (waterSlot != -1) {
                 // Switch to water bucket
-                previousSlot = client.player.getInventory().selectedSlot;
-                client.player.getInventory().selectedSlot = waterSlot;
+                previousSlot = client.player.getInventory().getSelectedSlot();
+                client.player.getInventory().setSelectedSlot(waterSlot);
 
                 // Find position to place water (below player)
                 BlockPos placePos = client.player.getBlockPos().down();
@@ -58,11 +59,11 @@ public class MLGWaterModule extends Module {
                     BlockHitResult hitResult = new BlockHitResult(hitPos, Direction.UP, placePos, false);
 
                     // Attempt to place water
-                    client.interactionManager.interactBlock(client.player, client.player.getActiveHand(), hitResult);
+                    client.interactionManager.interactBlock(client.player, Hand.MAIN_HAND, hitResult);
 
                     // Switch back if auto re-equip
                     if (autoReequip.getValue() && previousSlot != -1) {
-                        client.player.getInventory().selectedSlot = previousSlot;
+                        client.player.getInventory().setSelectedSlot(previousSlot);
                     }
                 }
             }

@@ -1,87 +1,15 @@
 package net.lumen.client.module.player;
 
-import net.lumen.client.event.EventRender3D;
 import net.lumen.client.module.Category;
 import net.lumen.client.module.Module;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.GameRenderer;
-import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 
-public class HitboxDisplayModule extends Module {
+/**
+ * Temporarily disabled while the original implementation is ported to the
+ * Minecraft 1.21.11 rendering pipeline. Original source is preserved under
+ * src/main/resources/disabled-module-sources/.
+ */
+public final class HitboxDisplayModule extends Module {
     public HitboxDisplayModule() {
-        super("Hitbox Display", "Renders your own and nearby player hitboxes as wireframes.", Category.PLAYER, 0);
-    }
-
-    @Override
-    protected void onEnable() {
-        subscribe(EventRender3D.class, this::onRender3D);
-    }
-
-    private void onRender3D(EventRender3D event) {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client.player == null || client.world == null) return;
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-
-        renderHitbox(client.player.getBoundingBox(), event, 0xFFFFFF00);
-        for (Entity entity : client.world.getEntities()) {
-            if (entity == client.player || !(entity instanceof net.minecraft.entity.player.PlayerEntity)) {
-                continue;
-            }
-            renderHitbox(entity.getBoundingBox(), event, 0xFF00FFFF);
-        }
-
-        RenderSystem.disableBlend();
-    }
-
-    private void renderHitbox(Box box, EventRender3D event, int color) {
-        Vec3d cameraPos = MinecraftClient.getInstance().gameRenderer.getCamera().getPos();
-        double minX = box.minX - cameraPos.x;
-        double minY = box.minY - cameraPos.y;
-        double minZ = box.minZ - cameraPos.z;
-        double maxX = box.maxX - cameraPos.x;
-        double maxY = box.maxY - cameraPos.y;
-        double maxZ = box.maxZ - cameraPos.z;
-
-        float r = ((color >> 16) & 0xFF) / 255.0f;
-        float g = ((color >> 8) & 0xFF) / 255.0f;
-        float b = (color & 0xFF) / 255.0f;
-        float a = ((color >> 24) & 0xFF) / 255.0f;
-
-        BufferBuilder buffer = Tessellator.getInstance().begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
-
-        addLine(buffer, event, minX, minY, minZ, maxX, minY, minZ, r, g, b, a);
-        addLine(buffer, event, maxX, minY, minZ, maxX, maxY, minZ, r, g, b, a);
-        addLine(buffer, event, maxX, maxY, minZ, minX, maxY, minZ, r, g, b, a);
-        addLine(buffer, event, minX, maxY, minZ, minX, minY, minZ, r, g, b, a);
-
-        addLine(buffer, event, minX, minY, maxZ, maxX, minY, maxZ, r, g, b, a);
-        addLine(buffer, event, maxX, minY, maxZ, maxX, maxY, maxZ, r, g, b, a);
-        addLine(buffer, event, maxX, maxY, maxZ, minX, maxY, maxZ, r, g, b, a);
-        addLine(buffer, event, minX, maxY, maxZ, minX, minY, maxZ, r, g, b, a);
-
-        addLine(buffer, event, minX, minY, minZ, minX, minY, maxZ, r, g, b, a);
-        addLine(buffer, event, maxX, minY, minZ, maxX, minY, maxZ, r, g, b, a);
-        addLine(buffer, event, maxX, maxY, minZ, maxX, maxY, maxZ, r, g, b, a);
-        addLine(buffer, event, minX, maxY, minZ, minX, maxY, maxZ, r, g, b, a);
-
-        BufferRenderer.drawWithGlobalProgram(buffer.end());
-    }
-
-    private void addLine(BufferBuilder buffer, EventRender3D event, double x1, double y1, double z1, double x2, double y2, double z2, float r, float g, float b, float a) {
-        int color = ((int)(a * 255) << 24) | ((int)(r * 255) << 16) | ((int)(g * 255) << 8) | (int)(b * 255);
-        buffer.vertex((float)x1, (float)y1, (float)z1, color, 0.0f, 0.0f, 0, 0, 0.0f, 0.0f, 0.0f);
-        buffer.vertex((float)x2, (float)y2, (float)z2, color, 0.0f, 0.0f, 0, 0, 0.0f, 0.0f, 0.0f);
+        super("Hitbox Display", "Temporarily disabled pending a Minecraft 1.21.11 rendering port.", Category.PLAYER, 0);
     }
 }
-
