@@ -35,7 +35,7 @@ public class ReachModule extends Module {
         double random = Math.random();
         if (random <= (chance.getValue() / 100.0)) {
             double reachVal = reach.getValue();
-            Vec3d playerPos = client.player.getPos();
+            Vec3d playerPos = client.player.getEntityPos();
             
             if (client.targetedEntity != null) {
                 Vec3d targetPos = client.targetedEntity.getEntityPos();
