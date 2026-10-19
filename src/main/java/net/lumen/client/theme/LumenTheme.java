@@ -9,9 +9,9 @@ import net.minecraft.util.Identifier;
  */
 public enum LumenTheme {
     LUMIN(
-        0xFF000001, 0xFF050609, 0x35FFFFFF,
-        0xFFDDF5FF, 0xFF7F8792, 0xFFFFFFFF,
-        0x99DDF5FF, 0xB50B0F15, 0xD70D1219
+        0xFF030303, 0xFF0A0A0A, 0x35FFFFFF,
+        0xFFF5F7FA, 0xFF858B93, 0xFFFFFFFF,
+        0x66FFFFFF, 0xB50B0B0D, 0xD7141417
     ),
     RAIN(
         0xFF02070B, 0xFF050E15, 0x3558A6B8,
@@ -64,7 +64,7 @@ public enum LumenTheme {
     }
 
     public Identifier watermarkAsset() {
-        return Identifier.of("lumen", "textures/gui/watermark.png");
+        return Identifier.of("lumen", "textures/gui/logo.png");
     }
 
     public Identifier nametagWatermarkAsset() {
