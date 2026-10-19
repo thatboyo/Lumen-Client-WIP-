@@ -38,7 +38,7 @@ public class ReachModule extends Module {
             Vec3d playerPos = client.player.getPos();
             
             if (client.targetedEntity != null) {
-                Vec3d targetPos = client.targetedEntity.getPos();
+                Vec3d targetPos = client.targetedEntity.getEntityPos();
                 double distance = playerPos.distanceTo(targetPos);
                 
                 if (distance <= reachVal) {
