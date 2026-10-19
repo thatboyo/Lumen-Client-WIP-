@@ -3,10 +3,10 @@
   "id": "lumen",
   "version": "${version}",
   "name": "Lumen",
-  "description": "Lumen: ghost-style utility client for anticheat testing on Fabric 1.21.x.",
+  "description": "Lumen: ghost-style utility client for anticheat testing on Fabric 1.21.11.",
   "authors": ["thatboyo"],
   "contact": {
-    "homepage": "https://github.com/thatboyo/Lumen-Client"
+    "homepage": "https://github.com/thatboyo/Lumen-Client-WIP-"
   },
   "license": "MIT",
   "environment": "client",
@@ -14,9 +14,9 @@
     "client": ["net.lumen.client.LumenClient"]
   },
   "depends": {
-    "fabricloader": ">=0.17.6",
+    "fabricloader": ">=0.19.3",
     "fabric": "*",
-    "minecraft": ">=1.21.1"
+    "minecraft": "1.21.11"
   },
   "mixins": ["lumen.mixins"]
 }
