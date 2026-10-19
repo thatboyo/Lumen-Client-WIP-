@@ -49,7 +49,7 @@ public class MLGWaterModule extends Module {
             if (waterSlot != -1) {
                 // Switch to water bucket
                 previousSlot = client.player.getInventory().getSelectedSlot();
-                client.player.getInventory().selectedSlot = waterSlot;
+                client.player.getInventory().setSelectedSlot(waterSlot);
 
                 // Find position to place water (below player)
                 BlockPos placePos = client.player.getBlockPos().down();
@@ -63,7 +63,7 @@ public class MLGWaterModule extends Module {
 
                     // Switch back if auto re-equip
                     if (autoReequip.getValue() && previousSlot != -1) {
-                        client.player.getInventory().selectedSlot = previousSlot;
+                        client.player.getInventory().setSelectedSlot(previousSlot);
                     }
                 }
             }
