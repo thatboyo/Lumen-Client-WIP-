@@ -8,6 +8,6 @@ public class KeybindSetting extends Setting<Integer> {
     }
 
     public InputUtil.Key getKey() {
-        return InputUtil.fromKeyCode(getValue(), 0);
+        return InputUtil.Type.KEYSYM.createFromCode(getValue());
     }
 }
