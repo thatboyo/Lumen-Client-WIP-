@@ -95,7 +95,7 @@ public class ConfigManager {
 
     public static LumenTheme loadTheme() {
         // Load theme from saved profile if available. In this skeleton we default to GHOST.
-        return LumenTheme.GHOST;
+        return LumenTheme.LUMIN;
     }
 
     private ProfileData buildCurrentProfile() {

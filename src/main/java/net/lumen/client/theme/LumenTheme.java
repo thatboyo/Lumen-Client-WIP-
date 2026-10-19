@@ -2,24 +2,56 @@ package net.lumen.client.theme;
 
 import net.minecraft.util.Identifier;
 
+/**
+ * Theme palettes recovered from the compiled WPF theme resources in the original
+ * Lumin desktop application. WPF gradients and effects are approximated by the
+ * Fabric GUI's current solid-color renderer.
+ */
 public enum LumenTheme {
-    GHOST(0x0A0A0A, 0x111111, 0x222222, 0xFFFFFF, 0x666666, 0xFFFFFF, 0, 0, 0),
-    CYBER(0x050510, 0x0A0A1A, 0x0D0D2B, 0x00AAFF, 0x0066CC, 0x00AAFF, 0, 0, 0),
-    HACKER(0x010F01, 0x051005, 0x0A1F0A, 0x00FF41, 0x1A6B1A, 0x00FF41, 0, 0, 0);
+    LUMIN(
+        0xFF000001, 0xFF050609, 0x35FFFFFF,
+        0xFFDDF5FF, 0xFF7F8792, 0xFFFFFFFF,
+        0x99DDF5FF, 0xB50B0F15, 0xD70D1219
+    ),
+    RAIN(
+        0xFF050A0D, 0xFF0B141A, 0x2A8EEBFF,
+        0xFF7ADCF2, 0xFF728C96, 0xFFE5FAFF,
+        0x777ADCF2, 0xC5162831, 0xE0182E38
+    ),
+    SYNTH(
+        0xFF08050F, 0xFF151020, 0x33EBD4FF,
+        0xFFFF6BD6, 0xFF90839D, 0xFFFFE8FB,
+        0x88FF6BD6, 0xC51F1729, 0xE0281A35
+    ),
 
+    // Backwards-compatible names for existing saved profiles.
+    GHOST(0xFF0A0A0A, 0xFF111111, 0xFF222222, 0xFFFFFFFF, 0xFF666666, 0xFFFFFFFF, 0x00000000, 0x00000000, 0x00000000),
+    CYBER(0xFF050510, 0xFF0A0A1A, 0xFF0D0D2B, 0xFF00AAFF, 0xFF0066CC, 0xFF00AAFF, 0x00000000, 0x00000000, 0x00000000),
+    HACKER(0xFF010F01, 0xFF051005, 0xFF0A1F0A, 0xFF00FF41, 0xFF1A6B1A, 0xFF00FF41, 0x00000000, 0x00000000, 0x00000000);
+
+    /** Main canvas color (WorldBlack). */
     public final int background;
+    /** Main panel fill (WorldCharcoal; translucent effects are layered separately). */
     public final int panel;
+    /** Subtle glass border color. */
     public final int border;
+    /** Primary theme accent. */
     public final int accent;
+    /** Secondary/muted text color. */
     public final int muted;
+    /** Bright accent used for enabled module indicators. */
     public final int enabledIndicator;
+    /** Accent halo color; alpha is retained for translucent drawing. */
     public final int glow;
+    /** Translucent enabled surface color. */
     public final int unused1;
+    /** Translucent selected surface color. */
     public final int unused2;
 
-    public static LumenTheme active = GHOST;
+    public static LumenTheme active = LUMIN;
 
-    LumenTheme(int background, int panel, int border, int accent, int muted, int enabledIndicator, int glow, int unused1, int unused2) {
+    LumenTheme(int background, int panel, int border, int accent, int muted,
+               int enabledIndicator, int glow, int unused1, int unused2) {
         this.background = background;
         this.panel = panel;
         this.border = border;

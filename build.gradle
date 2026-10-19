@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "net.fabricmc:fabric-loom:1.17.0-alpha.8"
+        classpath "net.fabricmc:fabric-loom:1.17.13"
     }
 }
 
@@ -33,10 +33,6 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
     modImplementation "com.google.code.gson:gson:2.10.1"
-}
-
-loom {
-    // accessWidenerPath = file('src/main/resources/lumen.accesswidener')
 }
 
 tasks.withType(JavaCompile).configureEach {
