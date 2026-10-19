@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
  */
 public final class ModuleVisibility {
     private static final Set<String> HIDDEN_MODULES = Set.of(
-            "disabler"
+            "disabler",
+            "nametags",
+            "tracers",
+            "chams",
+            "hitbox display"
     ).stream().map(name -> name.toLowerCase(Locale.ROOT)).collect(Collectors.toUnmodifiableSet());
 
     private ModuleVisibility() {
