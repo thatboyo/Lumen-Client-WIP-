@@ -80,6 +80,7 @@ public class GuiManager {
     }
 
     private void renderClassic(DrawContext context, float tickDelta) {
+        var theme = LumenClient.getThemeManager().getActiveTheme();
         int panelWidth = 140;
         int panelHeight = 240;
         int startX = 20;
@@ -94,46 +95,56 @@ public class GuiManager {
             int x = startX + ((i % columns) * (panelWidth + spacing));
             int y = startY + ((i / columns) * (panelHeight + spacing));
 
-            context.fill(x, y, x + panelWidth, y + panelHeight, LumenClient.getThemeManager().getActiveTheme().panel);
-            context.fill(x, y, x + panelWidth, y + 18, LumenClient.getThemeManager().getActiveTheme().background);
-            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, category.name(), x + 6, y + 4, LumenClient.getThemeManager().getActiveTheme().accent);
+            context.fill(x - 1, y - 1, x + panelWidth + 1, y + panelHeight + 1, theme.border);
+            context.fill(x, y, x + panelWidth, y + panelHeight, theme.panel);
+            context.fill(x, y, x + panelWidth, y + 18, theme.selectedSurface);
+            context.fill(x, y, x + 2, y + panelHeight, theme.glow);
+            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, category.name(), x + 6, y + 4, theme.accent);
 
             int moduleY = y + 24;
             for (Module module : LumenClient.getModuleManager().getModules(category)) {
                 if (moduleY + 14 > y + panelHeight - 6) break;
-                int indicatorColor = module.isEnabled() ? LumenClient.getThemeManager().getActiveTheme().enabledIndicator : 0xFF444444;
+                if (module.isEnabled()) {
+                    context.fill(x + 2, moduleY - 3, x + panelWidth - 2, moduleY + 11, theme.enabledSurface);
+                }
+                int indicatorColor = module.isEnabled() ? theme.enabledIndicator : theme.muted;
                 context.fill(x + 4, moduleY - 2, x + 8, moduleY + 10, indicatorColor);
-                context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, module.getName(), x + 10, moduleY, LumenClient.getThemeManager().getActiveTheme().accent);
+                context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, module.getName(), x + 10, moduleY, module.isEnabled() ? theme.enabledIndicator : theme.accent);
                 moduleY += 14;
             }
         }
     }
 
     private void renderSidebar(DrawContext context, float tickDelta) {
+        var theme = LumenClient.getThemeManager().getActiveTheme();
         int width = 320;
         int height = 260;
         int x = 20;
         int y = 20;
         int sidebarWidth = 100;
 
-        context.fill(x, y, x + width, y + height, LumenClient.getThemeManager().getActiveTheme().panel);
-        context.fill(x, y, x + sidebarWidth, y + height, LumenClient.getThemeManager().getActiveTheme().background);
-        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "Lumen", x + 10, y + 10, LumenClient.getThemeManager().getActiveTheme().accent);
+        context.fill(x - 1, y - 1, x + width + 1, y + height + 1, theme.border);
+        context.fill(x, y, x + width, y + height, theme.panel);
+        context.fill(x, y, x + sidebarWidth, y + height, theme.background);
+        context.fill(x, y, x + 2, y + height, theme.glow);
+        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "Lumen", x + 10, y + 10, theme.accent);
 
         int entryY = y + 30;
         for (Category category : Category.values()) {
-            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, category.name(), x + 10, entryY, LumenClient.getThemeManager().getActiveTheme().muted);
+            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, category.name(), x + 10, entryY, theme.muted);
             entryY += 14;
         }
 
         int listX = x + sidebarWidth + 10;
         int listY = y + 10;
-        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "Modules", listX, listY, LumenClient.getThemeManager().getActiveTheme().accent);
+        context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, "Modules", listX, listY, theme.accent);
         listY += 18;
 
         for (Module module : LumenClient.getModuleManager().getEnabled()) {
             if (listY + 12 > y + height - 10) break;
-            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, module.getName(), listX, listY, LumenClient.getThemeManager().getActiveTheme().accent);
+            context.fill(listX - 3, listY - 2, x + width - 8, listY + 10, theme.enabledSurface);
+            context.fill(listX - 3, listY - 2, listX - 1, listY + 10, theme.enabledIndicator);
+            context.drawTextWithShadow(MinecraftClient.getInstance().textRenderer, module.getName(), listX, listY, theme.enabledIndicator);
             listY += 12;
         }
     }
