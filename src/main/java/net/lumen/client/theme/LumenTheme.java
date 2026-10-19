@@ -43,15 +43,15 @@ public enum LumenTheme {
     public final int enabledIndicator;
     /** Accent halo color; alpha is retained for translucent drawing. */
     public final int glow;
-    /** Translucent enabled surface color. */
-    public final int unused1;
-    /** Translucent selected surface color. */
-    public final int unused2;
+    /** Translucent enabled module row surface. */
+    public final int enabledSurface;
+    /** Translucent panel/header surface. */
+    public final int selectedSurface;
 
     public static LumenTheme active = LUMIN;
 
     LumenTheme(int background, int panel, int border, int accent, int muted,
-               int enabledIndicator, int glow, int unused1, int unused2) {
+               int enabledIndicator, int glow, int enabledSurface, int selectedSurface) {
         this.background = background;
         this.panel = panel;
         this.border = border;
@@ -59,8 +59,8 @@ public enum LumenTheme {
         this.muted = muted;
         this.enabledIndicator = enabledIndicator;
         this.glow = glow;
-        this.unused1 = unused1;
-        this.unused2 = unused2;
+        this.enabledSurface = enabledSurface;
+        this.selectedSurface = selectedSurface;
     }
 
     public Identifier watermarkAsset() {
