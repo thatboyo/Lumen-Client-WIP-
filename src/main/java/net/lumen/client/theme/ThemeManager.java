@@ -3,7 +3,7 @@ package net.lumen.client.theme;
 import net.lumen.client.config.ConfigManager;
 
 public class ThemeManager {
-    private LumenTheme loadedTheme = LumenTheme.GHOST;
+    private LumenTheme loadedTheme = LumenTheme.LUMIN;
 
     public void initialize() {
         loadedTheme = ConfigManager.loadTheme();
@@ -12,7 +12,7 @@ public class ThemeManager {
 
     public void applyTheme(LumenTheme theme) {
         if (theme == null) {
-            theme = LumenTheme.GHOST;
+            theme = LumenTheme.LUMIN;
         }
         LumenTheme.active = theme;
         loadedTheme = theme;
