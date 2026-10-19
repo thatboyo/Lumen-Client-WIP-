@@ -57,17 +57,17 @@ public class AutoPotModule extends Module {
         if (potionSlot != -1) {
             // Switch to potion
             int previousSlot = client.player.getInventory().getSelectedSlot();
-            client.player.getInventory().selectedSlot = potionSlot;
+            client.player.getInventory().setSelectedSlot(potionSlot);
 
             // Use potion
             if (client.player.getInventory().getStack(potionSlot).getItem() == Items.SPLASH_POTION) {
                 client.interactionManager.interactItem(client.player, Hand.MAIN_HAND);
             } else {
-                client.interactionManager.interactItem(client.player, client.player.getActiveHand());
+                client.interactionManager.interactItem(client.player, Hand.MAIN_HAND);
             }
 
             // Switch back
-            client.player.getInventory().selectedSlot = previousSlot;
+            client.player.getInventory().setSelectedSlot(previousSlot);
         }
     }
 }
