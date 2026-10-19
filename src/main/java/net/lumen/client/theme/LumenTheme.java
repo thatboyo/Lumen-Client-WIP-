@@ -64,7 +64,7 @@ public enum LumenTheme {
     }
 
     public Identifier watermarkAsset() {
-        return Identifier.of("lumen", "textures/gui/logo.png");
+        return Identifier.of("lumen", "textures/gui/watermark.png");
     }
 
     public Identifier nametagWatermarkAsset() {
