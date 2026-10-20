@@ -1,0 +1,22 @@
+{
+  "name": "Lumin",
+  "background": "#0e1014",
+  "sidebar": "#14161b",
+  "panel": "#1b1e25",
+  "panelHover": "#252932",
+  "panelActive": "#2d323d",
+  "accent": "#8770ff",
+  "accentBright": "#a592ff",
+  "text": "#e7eaf2",
+  "textDim": "#8a92a4",
+  "border": "#292d36",
+  "success": "#66d999",
+  "danger": "#f96773",
+  "warning": "#ffc75a",
+  "windowRounding": 10,
+  "frameRounding": 6,
+  "windowPadding": 12,
+  "itemSpacing": 8,
+  "borderSize": 1,
+  "uiScale": 1.0
+}

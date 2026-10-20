@@ -1,0 +1,19 @@
+# Builds
+build/
+build-win/
+build-*/
+out/
+
+# Toolchains and downloaded archives
+.tools/
+
+# Gradle / Loom
+bridge/.gradle/
+bridge/build/
+.gradle/
+bridge/run/
+
+# Local runtime files
+config.json
+theme.json
+lumin.log

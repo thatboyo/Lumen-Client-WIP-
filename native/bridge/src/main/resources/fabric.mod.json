@@ -1,0 +1,18 @@
+{
+	"schemaVersion": 1,
+	"id": "lumin-bridge",
+	"version": "${version}",
+	"name": "Lumin Bridge",
+	"description": "JNI bridge between the Lumin native client and Minecraft. Single-player only.",
+	"authors": ["lumin"],
+	"license": "All-Rights-Reserved",
+	"environment": "client",
+	"mixins": [
+		"lumin.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.0",
+		"minecraft": "~1.21.11",
+		"java": ">=21"
+	}
+}
